@@ -3,7 +3,7 @@ use processing::types::*;
 
 pub trait Observable<Item, Err, Observer>
 where
-    Observer: GameObject<Item = Item, Err = Err>, 
+    Observer: GameObject<Item = Item, Err = Err>,
 {
     type CancellableToken;
 
@@ -27,7 +27,7 @@ fn main() {
 
     // 1. Stack-allocated arrays for performance
     println!("1. Stack-allocated Vector and Matrix:");
-    let v1 = Vector ::new([4.0, 5.0, 6.0]);
+    let v1 = Vector::new([4.0, 5.0, 6.0]);
     println!("   v1 = {:?}", v1.as_array());
     println!("   v2 = {:?}", v1.as_array());
 
@@ -64,17 +64,16 @@ fn main() {
     let normalized = calculate_vector_normalization(&v1);
     let dot_product = calculate_vector_dot_product(&v1, &v2);
     println!("   |v1| = {:.2}", magnitude);
-    println!("   normalized v1 = {:?}", normalized.as_array().map(|x| (x * 100.0).round() / 100.0));
+    println!(
+        "   normalized v1 = {:?}",
+        normalized.as_array().map(|x| (x * 100.0).round() / 100.0)
+    );
     println!("   v1 · v2 = {:.2}", dot_product);
 
     // 6. Matrix operations
     println!("\n6. Matrix Operations:");
     let m1 = Matrix3x3::identity();
-    let m2 = Matrix3x3::new([
-        [1.0, 2.0, 3.0],
-        [4.0, 5.0, 6.0],
-        [7.0, 8.0, 9.0],
-    ]);
+    let m2 = Matrix3x3::new([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0], [7.0, 8.0, 9.0]]);
     println!("   Identity matrix:");
     for i in 0..3 {
         println!("     {:?}", m1[i]);
@@ -89,10 +88,16 @@ fn main() {
     let point = Point2D::new([10.0, 20.0]);
     let rect = Rect::new(0.0, 0.0, 100.0, 50.0);
     let circle = Circle::new(Point2D::new([50.0, 25.0]), 15.0);
-    
+
     println!("   Point: ({}, {})", point[0], point[1]);
-    println!("   Rectangle: {}x{} at ({}, {})", rect.width, rect.height, rect.x, rect.y);
-    println!("   Circle: radius {} at ({}, {})", circle.radius, circle.center[0], circle.center[1]);
+    println!(
+        "   Rectangle: {}x{} at ({}, {})",
+        rect.width, rect.height, rect.x, rect.y
+    );
+    println!(
+        "   Circle: radius {} at ({}, {})",
+        circle.radius, circle.center[0], circle.center[1]
+    );
     println!("   Point in rectangle: {}", rect.contains_point(&point));
     println!("   Point in circle: {}", circle.contains_point(&point));
 

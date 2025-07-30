@@ -1,0 +1,20 @@
+[Unit]
+Description=Codebase Improvement Cycle Service
+After=network.target
+
+[Service]
+Type=simple
+User=%i
+WorkingDirectory=/home/lokrain/map/workspace
+ExecStart=/home/lokrain/map/workspace/scripts/improvement-cycle.sh continuous
+Restart=always
+RestartSec=60
+Environment=RUST_LOG=info
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=improvement-cycle
+
+[Install]
+WantedBy=multi-user.target

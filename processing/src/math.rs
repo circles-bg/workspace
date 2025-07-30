@@ -39,103 +39,103 @@
 //! ```
 
 /// Generic transformation trait for applying 4x4 matrix transformations.
-/// 
+///
 /// This trait enables objects to be transformed using homogeneous coordinates,
 /// commonly used in 3D graphics for translations, rotations, scaling, and projections.
 pub trait Transformable {
     /// Apply a 4x4 transformation matrix to the object.
-    /// 
+    ///
     /// # Arguments
     /// * `matrix` - A 4x4 transformation matrix in column-major order
-    /// 
+    ///
     /// # Returns
     /// A new transformed instance of the object
     fn transform(&self, matrix: &[[f32; 4]; 4]) -> Self;
 }
 
 /// Generic scaling trait for uniform scaling operations.
-/// 
+///
 /// This trait enables objects to be scaled by a uniform factor,
 /// maintaining proportions while changing size.
 pub trait Scalable {
     /// Scale the object by a uniform factor.
-    /// 
+    ///
     /// # Arguments
     /// * `factor` - The scaling factor (1.0 = no change, >1.0 = larger, <1.0 = smaller)
-    /// 
+    ///
     /// # Returns
     /// A new scaled instance of the object
     fn scale(&self, factor: f32) -> Self;
 }
 
 /// Generic rotation trait for 2D rotation operations.
-/// 
+///
 /// This trait enables objects to be rotated around their origin or a specific axis.
 pub trait Rotatable {
     /// Rotate the object by the specified angle.
-    /// 
+    ///
     /// # Arguments
     /// * `angle` - The rotation angle in radians
-    /// 
+    ///
     /// # Returns
     /// A new rotated instance of the object
     fn rotate(&self, angle: f32) -> Self;
 }
 
 /// A generic N-dimensional vector with compile-time fixed dimensions.
-/// 
+///
 /// This vector implementation uses stack-allocated arrays for optimal performance
 /// and memory locality. The dimension `DIM` is known at compile time, enabling
 /// aggressive compiler optimizations and preventing runtime dimension mismatches.
-/// 
+///
 /// # Type Parameters
-/// 
+///
 /// * `DIM` - The number of dimensions (compile-time constant)
 /// * `T` - The numeric type of vector components (f32, f64, i32, etc.)
-/// 
+///
 /// # Memory Layout
-/// 
+///
 /// The vector data is stored as a contiguous array `[T; DIM]`, ensuring:
 /// - Cache-friendly memory access patterns
 /// - Zero-cost abstractions over raw arrays
 /// - SIMD-friendly alignment for supported types
-/// 
+///
 /// # Examples
-/// 
+///
 /// ```rust
 /// use processing::math::Vector;
-/// 
+///
 /// // Create a 3D vector
 /// let v1 = Vector::<3, f32>::new([1.0, 2.0, 3.0]);
 /// let v2 = Vector::<3, f32>::new([4.0, 5.0, 6.0]);
-/// 
+///
 /// // Vector arithmetic using operator overloading
 /// let sum = v1 + v2;                 // [5.0, 7.0, 9.0]
 /// let scaled = v1 * 2.0;             // [2.0, 4.0, 6.0]
-/// 
+///
 /// // Vector operations using trait methods
 /// let dot_product = v1.dot(&v2);     // 32.0
 /// let cross_product = v1.cross(&v2); // [-3.0, 6.0, -3.0]
-/// 
+///
 /// // Access components safely
 /// if let Some(x) = v1.get(0) {
 ///     println!("X component: {}", x);
 /// }
-/// 
+///
 /// // Convert to/from slices
 /// let slice = [1.0, 2.0, 3.0];
 /// let vector = Vector::<3, f32>::try_from_slice(&slice)?;
 /// ```
-/// 
+///
 /// # Performance Characteristics
-/// 
+///
 /// - **Creation**: O(1) - direct array initialization
 /// - **Component Access**: O(1) - direct array indexing
 /// - **Arithmetic Operations**: O(DIM) - vectorizable loops
 /// - **Memory Overhead**: Zero - wrapper around plain array
-/// 
+///
 /// # Safety
-/// 
+///
 /// All operations are bounds-checked at compile time where possible,
 /// and runtime bounds checks are used for dynamic operations like slicing.
 #[derive(Debug, Clone, PartialEq)]
@@ -145,69 +145,69 @@ pub struct Vector<const DIM: usize, T> {
 }
 
 /// A generic ROWS×COLS matrix with compile-time fixed dimensions.
-/// 
+///
 /// This matrix implementation uses stack-allocated 2D arrays for optimal performance
 /// and memory locality. Both dimensions are known at compile time, enabling
 /// aggressive compiler optimizations and preventing runtime dimension mismatches.
-/// 
+///
 /// # Type Parameters
-/// 
+///
 /// * `ROWS` - The number of rows (compile-time constant)
 /// * `COLS` - The number of columns (compile-time constant)  
 /// * `T` - The numeric type of matrix elements (f32, f64, i32, etc.)
-/// 
+///
 /// # Memory Layout
-/// 
+///
 /// The matrix data is stored as a contiguous 2D array `[[T; COLS]; ROWS]` in row-major order:
 /// - Excellent cache locality for row-wise operations
 /// - SIMD-friendly alignment for supported types
 /// - Zero-cost abstractions over raw 2D arrays
-/// 
+///
 /// # Mathematical Operations
-/// 
+///
 /// The matrix supports standard linear algebra operations:
 /// - Addition and subtraction (element-wise)
 /// - Scalar multiplication
 /// - Matrix multiplication (when dimensions are compatible)
 /// - Transposition
 /// - Identity and zero matrix construction
-/// 
+///
 /// # Examples
-/// 
+///
 /// ```rust
 /// use processing::math::Matrix;
-/// 
+///
 /// // Create matrices
 /// let m1 = Matrix::<2, 2, f32>::identity();
 /// let m2 = Matrix::<2, 2, f32>::new([
 ///     [1.0, 2.0],
 ///     [3.0, 4.0]
 /// ]);
-/// 
+///
 /// // Matrix arithmetic
 /// let sum = m1 + m2;               // Element-wise addition
 /// let scaled = m2 * 2.0;           // Scalar multiplication
 /// let product = m1.multiply(&m2);  // Matrix multiplication
 /// let transposed = m2.transpose(); // Matrix transposition
-/// 
+///
 /// // Access elements safely
 /// let element = m2[0][1]; // Direct indexing (2.0)
-/// 
+///
 /// // Create special matrices
 /// let zeros = Matrix::<3, 3, f32>::zeros();
 /// let identity = Matrix::<4, 4, f32>::identity();
 /// ```
-/// 
+///
 /// # Performance Characteristics
-/// 
+///
 /// - **Creation**: O(1) - direct array initialization
 /// - **Element Access**: O(1) - direct array indexing
 /// - **Addition/Subtraction**: O(ROWS × COLS) - vectorizable
 /// - **Matrix Multiplication**: O(ROWS × COLS × K) - cache-efficient
 /// - **Memory Overhead**: Zero - wrapper around plain 2D array
-/// 
+///
 /// # Thread Safety
-/// 
+///
 /// Matrix instances are `Send + Sync` when T is `Send + Sync`, making them
 /// safe to share between threads for parallel computation.
 #[derive(Debug, Clone, PartialEq)]
@@ -318,7 +318,7 @@ where
     pub fn new(data: [T; DIM]) -> Self {
         Self { data }
     }
-    
+
     /// Creates a new vector from a slice, panics if length doesn't match DIM.
     pub fn from_slice(slice: &[T]) -> Self {
         assert_eq!(slice.len(), DIM, "Slice length must match vector dimension");
@@ -378,7 +378,9 @@ where
 {
     /// Creates a zero vector.
     pub fn zeros() -> Self {
-        Self { data: [T::default(); DIM] }
+        Self {
+            data: [T::default(); DIM],
+        }
     }
 }
 
@@ -398,7 +400,9 @@ where
 {
     /// Creates a zero matrix.
     pub fn zeros() -> Self {
-        Self { data: [[T::default(); COLS]; ROWS] }
+        Self {
+            data: [[T::default(); COLS]; ROWS],
+        }
     }
 }
 
@@ -427,8 +431,9 @@ where
             .iter_mut()
             .zip(self.data.iter().zip(other.data.iter()))
         {
-            for (elem_result, (elem_self, elem_other)) in
-                row_result.iter_mut().zip(row_self.iter().zip(row_other.iter()))
+            for (elem_result, (elem_self, elem_other)) in row_result
+                .iter_mut()
+                .zip(row_self.iter().zip(row_other.iter()))
             {
                 *elem_result = *elem_self + *elem_other;
             }
@@ -469,7 +474,10 @@ where
 {
     fn add(&self, other: &Vector<DIM, T>) -> Vector<DIM, T> {
         let mut result_data = self.data;
-        for (result_elem, (&self_elem, &other_elem)) in result_data.iter_mut().zip(self.data.iter().zip(other.data.iter())) {
+        for (result_elem, (&self_elem, &other_elem)) in result_data
+            .iter_mut()
+            .zip(self.data.iter().zip(other.data.iter()))
+        {
             *result_elem = self_elem + other_elem;
         }
         Vector::new(result_data)
@@ -477,7 +485,10 @@ where
 
     fn subtract(&self, other: &Vector<DIM, T>) -> Vector<DIM, T> {
         let mut result_data = self.data;
-        for (result_elem, (&self_elem, &other_elem)) in result_data.iter_mut().zip(self.data.iter().zip(other.data.iter())) {
+        for (result_elem, (&self_elem, &other_elem)) in result_data
+            .iter_mut()
+            .zip(self.data.iter().zip(other.data.iter()))
+        {
             *result_elem = self_elem - other_elem;
         }
         Vector::new(result_data)
@@ -617,8 +628,14 @@ where
 
     fn add(self, other: Self) -> Self::Output {
         let mut result = self.data;
-        for (result_row, (self_row, other_row)) in result.iter_mut().zip(self.data.iter().zip(other.data.iter())) {
-            for (result_elem, (&self_elem, &other_elem)) in result_row.iter_mut().zip(self_row.iter().zip(other_row.iter())) {
+        for (result_row, (self_row, other_row)) in result
+            .iter_mut()
+            .zip(self.data.iter().zip(other.data.iter()))
+        {
+            for (result_elem, (&self_elem, &other_elem)) in result_row
+                .iter_mut()
+                .zip(self_row.iter().zip(other_row.iter()))
+            {
                 *result_elem = self_elem + other_elem;
             }
         }
@@ -634,8 +651,14 @@ where
 
     fn sub(self, other: Self) -> Self::Output {
         let mut result = self.data;
-        for (result_row, (self_row, other_row)) in result.iter_mut().zip(self.data.iter().zip(other.data.iter())) {
-            for (result_elem, (&self_elem, &other_elem)) in result_row.iter_mut().zip(self_row.iter().zip(other_row.iter())) {
+        for (result_row, (self_row, other_row)) in result
+            .iter_mut()
+            .zip(self.data.iter().zip(other.data.iter()))
+        {
+            for (result_elem, (&self_elem, &other_elem)) in result_row
+                .iter_mut()
+                .zip(self_row.iter().zip(other_row.iter()))
+            {
                 *result_elem = self_elem - other_elem;
             }
         }
@@ -772,14 +795,14 @@ where
 }
 
 /// Adds two vectors element-wise.
-/// 
+///
 /// # Arguments
 /// * `a` - First vector
 /// * `b` - Second vector
-/// 
+///
 /// # Returns
 /// A new vector containing the element-wise sum of `a` and `b`
-/// 
+///
 /// # Example
 /// ```
 /// use processing::math::{Vector, calculate_vector_addition};
@@ -803,14 +826,14 @@ where
 }
 
 /// Subtracts two vectors element-wise.
-/// 
+///
 /// # Arguments
 /// * `a` - First vector (minuend)
 /// * `b` - Second vector (subtrahend)
-/// 
+///
 /// # Returns
 /// A new vector containing the element-wise difference of `a` and `b` (a - b)
-/// 
+///
 /// # Example
 /// ```
 /// use processing::math::{Vector, calculate_vector_subtraction};
@@ -849,14 +872,14 @@ where
 }
 
 /// Scales a vector by a scalar factor.
-/// 
+///
 /// # Arguments
 /// * `vector` - The vector to scale
 /// * `factor` - The scaling factor
-/// 
+///
 /// # Returns
 /// A new vector with each element multiplied by the factor
-/// 
+///
 /// # Example
 /// ```
 /// use processing::math::{Vector, calculate_vector_scale};
@@ -891,13 +914,13 @@ where
 }
 
 /// Normalizes a vector to unit length.
-/// 
+///
 /// # Arguments
 /// * `vector` - The vector to normalize
-/// 
+///
 /// # Returns
 /// A new vector with the same direction but unit magnitude (length = 1.0)
-/// 
+///
 /// # Example
 /// ```
 /// use processing::math::{Vector, calculate_vector_normalization};
@@ -905,7 +928,7 @@ where
 /// let result = calculate_vector_normalization(&v);
 /// // Result should be approximately [0.6, 0.8, 0.0] with magnitude 1.0
 /// ```
-/// 
+///
 /// # Note
 /// Returns a zero vector if the input vector has zero magnitude
 pub fn calculate_vector_normalization<const DIM: usize, T>(

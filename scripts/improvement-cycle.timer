@@ -1,0 +1,14 @@
+[Unit]
+Description=Codebase Improvement Cycle Timer
+Requires=improvement-cycle.service
+
+[Timer]
+# Run every hour
+OnCalendar=hourly
+# Start immediately if the system was powered off during a scheduled time
+Persistent=true
+# Randomize the start time by up to 5 minutes to avoid system load spikes
+RandomizedDelaySec=5min
+
+[Install]
+WantedBy=timers.target

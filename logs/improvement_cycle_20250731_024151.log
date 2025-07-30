@@ -1,0 +1,103 @@
+[2025-07-31 02:41:51] === Starting Improvement Cycle #1 ===
+[2025-07-31 02:41:51] Pulling latest changes from remote...
+[2025-07-31 02:41:52] Running Clippy analysis...
+    Checking processing v0.1.0 (/home/lokrain/map/workspace/processing)
+    Checking math-demo v0.1.0 (/home/lokrain/map/workspace/math-demo)
+error[E0425]: cannot find value `v2` in this scope
+  --> math-demo/src/main.rs:65:58
+   |
+65 |     let dot_product = calculate_vector_dot_product(&v1, &v2);
+   |                                                          ^^ help: a local variable with a similar name exists: `v1`
+
+error[E0220]: associated type `Item` not found for `processing::math::GameObject`
+ --> math-demo/src/main.rs:6:26
+  |
+6 |     Observer: GameObject<Item = Item, Err = Err>, 
+  |                          ^^^^ associated type `Item` not found
+
+error[E0220]: associated type `Err` not found for `processing::math::GameObject`
+ --> math-demo/src/main.rs:6:39
+  |
+6 |     Observer: GameObject<Item = Item, Err = Err>, 
+  |                                       ^^^ there is an associated type `Err` in the trait `std::str::FromStr`
+
+Some errors have detailed explanations: E0220, E0425.
+For more information about an error, try `rustc --explain E0220`.
+error: could not compile `math-demo` (bin "math-demo") due to 3 previous errors
+warning: build failed, waiting for other jobs to finish...
+error: could not compile `math-demo` (bin "math-demo" test) due to 3 previous errors
+[2025-07-31 02:41:54] ✅ No Clippy warnings found
+[2025-07-31 02:41:54] Formatting code with rustfmt...
+[2025-07-31 02:41:54] Running test suite...
+   Compiling processing v0.1.0 (/home/lokrain/map/workspace/processing)
+   Compiling math-demo v0.1.0 (/home/lokrain/map/workspace/math-demo)
+error[E0425]: cannot find value `v2` in this scope
+  --> math-demo/src/main.rs:65:58
+   |
+65 |     let dot_product = calculate_vector_dot_product(&v1, &v2);
+   |                                                          ^^ help: a local variable with a similar name exists: `v1`
+
+error[E0220]: associated type `Item` not found for `processing::math::GameObject`
+ --> math-demo/src/main.rs:6:26
+  |
+6 |     Observer: GameObject<Item = Item, Err = Err>,
+  |                          ^^^^ associated type `Item` not found
+
+error[E0220]: associated type `Err` not found for `processing::math::GameObject`
+ --> math-demo/src/main.rs:6:39
+  |
+6 |     Observer: GameObject<Item = Item, Err = Err>,
+  |                                       ^^^ there is an associated type `Err` in the trait `FromStr`
+
+Some errors have detailed explanations: E0220, E0425.
+For more information about an error, try `rustc --explain E0220`.
+error: could not compile `math-demo` (bin "math-demo" test) due to 3 previous errors
+warning: build failed, waiting for other jobs to finish...
+[2025-07-31 02:41:55] ✅ All tests passed
+[2025-07-31 02:41:55] Checking documentation...
+    Checking processing v0.1.0 (/home/lokrain/map/workspace/processing)
+ Documenting processing v0.1.0 (/home/lokrain/map/workspace/processing)
+ Documenting math-demo v0.1.0 (/home/lokrain/map/workspace/math-demo)
+error[E0220]: associated type `Item` not found for `processing::math::GameObject`
+ --> math-demo/src/main.rs:6:26
+  |
+6 |     Observer: GameObject<Item = Item, Err = Err>,
+  |                          ^^^^ associated type `Item` not found
+
+error[E0220]: associated type `Err` not found for `processing::math::GameObject`
+ --> math-demo/src/main.rs:6:39
+  |
+6 |     Observer: GameObject<Item = Item, Err = Err>,
+  |                                       ^^^ there is an associated type `Err` in the trait `std::str::FromStr`
+
+For more information about this error, try `rustc --explain E0220`.
+error: could not document `math-demo`
+warning: build failed, waiting for other jobs to finish...
+[2025-07-31 02:41:56] Running release build...
+   Compiling processing v0.1.0 (/home/lokrain/map/workspace/processing)
+   Compiling math-demo v0.1.0 (/home/lokrain/map/workspace/math-demo)
+error[E0425]: cannot find value `v2` in this scope
+  --> math-demo/src/main.rs:65:58
+   |
+65 |     let dot_product = calculate_vector_dot_product(&v1, &v2);
+   |                                                          ^^ help: a local variable with a similar name exists: `v1`
+
+error[E0220]: associated type `Item` not found for `processing::math::GameObject`
+ --> math-demo/src/main.rs:6:26
+  |
+6 |     Observer: GameObject<Item = Item, Err = Err>,
+  |                          ^^^^ associated type `Item` not found
+
+error[E0220]: associated type `Err` not found for `processing::math::GameObject`
+ --> math-demo/src/main.rs:6:39
+  |
+6 |     Observer: GameObject<Item = Item, Err = Err>,
+  |                                       ^^^ there is an associated type `Err` in the trait `FromStr`
+
+Some errors have detailed explanations: E0220, E0425.
+For more information about an error, try `rustc --explain E0220`.
+error: could not compile `math-demo` (bin "math-demo") due to 3 previous errors
+[2025-07-31 02:41:57] Checking for unused dependencies...
+[2025-07-31 02:41:57] Running security audit...
+[2025-07-31 02:41:57] cargo-audit not available, skipping security check
+[2025-07-31 02:41:57] Changes detected, preparing commit...
